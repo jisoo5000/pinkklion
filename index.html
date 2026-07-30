@@ -359,9 +359,10 @@
     <div class="cal-legend">
       <span style="color:#D8D2C2;">★</span> 기록없음
       <span style="color:#FF6B6B;">★</span> 별 1-2개
-      <span style="color:#FFC93C;">★</span> 별 3개
-      <span style="color:#4A90E2;">★</span> 별 4-5개
+      <span style="color:#FFC93C;">★</span> 별 3-4개
+      <span style="color:#4A90E2;">★</span> 별 5개
     </div>
+    <div style="text-align:center; font-size:11px; color:#9A927A; margin-top:6px;">📌 날짜를 누르면 그날 기록을 수정할 수 있어요</div>
   </div>
 </div>
 
@@ -482,9 +483,9 @@ function fmt(d){
 
 function starColor(n){
   if(!n || n<=0) return '#EAE6D8';
-  if(n<=2) return '#FF6B6B';
-  if(n===3) return '#FFC93C';
-  return '#4A90E2';
+  if(n<=2) return '#FF6B6B';   // 빨간별
+  if(n<=4) return '#FFC93C';   // 노란별
+  return '#4A90E2';            // 파란별
 }
 
 async function renderCalendar(){
@@ -530,11 +531,19 @@ async function renderCalendar(){
     if(inRange && starsMap[key]){
       const n = starsMap[key];
       cell.classList.add('cal-star-cell');
-      cell.style.color = (n===3) ? 'var(--navy)' : '#fff';
+      cell.style.color = (n>=3 && n<=4) ? 'var(--navy)' : '#fff';
     }
     const numEl = document.createElement('div');
     numEl.textContent = d.getDate();
     cell.appendChild(numEl);
+    if(inRange){
+      cell.style.cursor = 'pointer';
+      cell.addEventListener('click', ()=>{
+        document.getElementById('dateInput').value = key;
+        loadData(key);
+        window.scrollTo({top:0, behavior:'smooth'});
+      });
+    }
     grid.appendChild(cell);
   });
 
@@ -543,13 +552,13 @@ async function renderCalendar(){
   let cur2 = new Date(VACATION_START);
   while(cur2 <= VACATION_END){
     totalDays++;
-    if((starsMap[fmt(cur2)] || 0) >= 4) blueCount++;
+    if((starsMap[fmt(cur2)] || 0) >= 5) blueCount++;
     cur2.setDate(cur2.getDate()+1);
   }
   const pct = totalDays ? Math.round((blueCount/totalDays)*100) : 0;
   const progressEl = document.getElementById('starProgress');
   progressEl.innerHTML = `🔵 파란별 ${blueCount}개 / ${totalDays}일 모았어요!
-    <div class="bar-track"><div class="bar-fill" style="width:${pct}%;"></div></div>`;
+    <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:#4A90E2;"></div></div>`;
 }
 
 // onclick 속성에서 호출할 수 있도록 전역으로 등록
