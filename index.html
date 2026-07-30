@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>수현이의 여름방학 체크리스트</title>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky-top:#FFF6D8;
+    --sky-bottom:#BFE6F5;
+    --sun:#FFC93C;
+    --coral:#FF7A6E;
+    --mint:#3FC1A6;
+    --navy:#2D3047;
+    --card:#FFFFFF;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+    background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky-bottom) 100%);
+    color:var(--navy);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:14px 10px 24px;
+  }
+  .phone{
+    width:100%;
+    max-width:400px;
+  }
+  .sun-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:2px;
+  }
+  .sun{
+    font-size:34px;
+    animation:spin 12s linear infinite;
+    display:inline-block;
+  }
+  @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+  h1{
+    font-family:'Jua',sans-serif;
+    font-weight:400;
+    text-align:center;
+    font-size:22px;
+    margin:2px 0 10px;
+    color:var(--navy);
+    letter-spacing:-0.5px;
+  }
+  .date-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:6px;
+    margin-bottom:10px;
+  }
+  .date-row input[type=date]{
+    font-size:17px;
+    font-weight:700;
+    border:2px solid var(--navy);
+    border-radius:10px;
+    padding:6px 10px;
+    background:var(--card);
+    color:var(--navy);
+  }
+  .card{
+    background:var(--card);
+    border-radius:20px;
+    padding:12px 14px;
+    box-shadow:0 6px 0 rgba(45,48,71,0.12);
+    border:2.5px solid var(--navy);
+  }
+  .item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 2px;
+    border-bottom:2px dashed #EAE3D0;
+  }
+  .item:last-child{border-bottom:none;}
+  .item .emoji{font-size:24px; width:30px; text-align:center;}
+  .item label{
+    flex:1;
+    font-size:18px;
+    font-weight:700;
+  }
+  .chk{
+    width:30px;height:30px;
+    border:2.5px solid var(--navy);
+    border-radius:8px;
+    background:var(--card);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-size:19px;
+    flex-shrink:0;
+  }
+  .chk.done{background:var(--mint); color:#fff;}
+  .fillrow{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 2px;
+    border-bottom:2px dashed #EAE3D0;
+  }
+  .fillrow:last-child{border-bottom:none;}
+  .fillrow .emoji{font-size:24px; width:30px; text-align:center;}
+  .filltext{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+  }
+  .filltext .flabel{font-size:18px; font-weight:700;}
+  .filltext input{
+    font-size:16px;
+    border:2px solid #D9D2BC;
+    border-radius:8px;
+    padding:6px 8px;
+    background:#FFFDF7;
+    color:var(--navy);
+    width:100%;
+  }
+  .filltext input:focus{outline:none; border-color:var(--coral);}
+  .section-title{
+    font-weight:800;
+    font-size:19px;
+    margin:12px 0 6px;
+    text-align:center;
+  }
+  .stars{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    margin-bottom:6px;
+  }
+  .star{
+    font-size:30px;
+    cursor:pointer;
+    filter:grayscale(100%) opacity(0.4);
+    transition:transform 0.1s;
+  }
+  .star.on{filter:none; opacity:1;}
+  .star:active{transform:scale(1.2);}
+  textarea{
+    width:100%;
+    font-size:16px;
+    border:2px solid #D9D2BC;
+    border-radius:10px;
+    padding:7px 8px;
+    background:#FFFDF7;
+    color:var(--navy);
+    resize:none;
+    height:38px;
+  }
+  textarea:focus{outline:none; border-color:var(--coral);}
+  .confirm-row{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin-top:8px;
+  }
+  .confirm{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .confirm .emoji{font-size:22px; width:28px; text-align:center;}
+  .confirm .label{font-size:16px; font-weight:700; flex:1;}
+  .confirm .chk{width:28px;height:28px; font-size:17px;}
+  .save-btn{
+    width:100%;
+    margin-top:14px;
+    padding:13px;
+    font-weight:800;
+    font-size:18px;
+    background:var(--coral);
+    color:#fff;
+    border:none;
+    border-radius:14px;
+    box-shadow:0 4px 0 #C74A40;
+    cursor:pointer;
+  }
+  .save-btn:active{ transform:translateY(2px); box-shadow:0 2px 0 #C74A40; }
+  .status{
+    text-align:center;
+    font-size:15px;
+    margin-top:8px;
+    min-height:18px;
+    color:var(--mint);
+    font-weight:700;
+  }
+  .cal-weekdays{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    text-align:center;
+    font-size:12px;
+    font-weight:700;
+    color:#9A927A;
+    margin-bottom:4px;
+  }
+  .cal-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:4px;
+  }
+  .cal-cell{
+    aspect-ratio:1/1;
+    border-radius:8px;
+    background:#EAE6D8;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    color:var(--navy);
+    position:relative;
+  }
+  .cal-cell.out{
+    background:transparent;
+    color:#D8D2C2;
+    font-weight:400;
+  }
+  .cal-cell.today{
+    border:2px solid var(--coral);
+  }
+  .cal-star-cell{
+    clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    border-radius:0;
+    padding-top:6px;
+  }
+  .star-progress{
+    text-align:center;
+    font-size:14px;
+    font-weight:700;
+    color:var(--navy);
+    margin:0 0 8px;
+  }
+  .star-progress .bar-track{
+    width:100%;
+    height:12px;
+    background:#EAE6D8;
+    border-radius:8px;
+    border:2px solid var(--navy);
+    overflow:hidden;
+    margin-top:4px;
+  }
+  .star-progress .bar-fill{
+    height:100%;
+    background:#4A90E2;
+    border-radius:6px 0 0 6px;
+    transition:width 0.4s;
+  }
+  .cal-legend{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+    font-size:10px;
+    color:#7A7460;
+    margin-top:8px;
+  }
+  .cal-dot{
+    display:inline-block;
+    width:9px;height:9px;
+    border-radius:3px;
+    margin-right:2px;
+    vertical-align:middle;
+  }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="sun-wrap"><span class="sun">☀️</span></div>
+  <h1>수현이의 여름방학 체크리스트</h1>
+  <div class="date-row">
+    <span style="font-size:16px;">📅</span>
+    <input type="date" id="dateInput">
+  </div>
+
+  <div class="card">
+    <div class="item">
+      <span class="emoji">🛏️</span>
+      <label>이불정리</label>
+      <div class="chk" data-key="bed" onclick="toggleChk(this)"></div>
+    </div>
+    <div class="item">
+      <span class="emoji">🧹</span>
+      <label>방정리</label>
+      <div class="chk" data-key="room" onclick="toggleChk(this)"></div>
+    </div>
+    <div class="item">
+      <span class="emoji">🎒</span>
+      <label>책가방정리</label>
+      <div class="chk" data-key="bag" onclick="toggleChk(this)"></div>
+    </div>
+
+    <div class="fillrow">
+      <span class="emoji">➗</span>
+      <div class="filltext">
+        <span class="flabel">수학</span>
+        <input type="text" id="mathInput" placeholder="예 - 12쪽부터 15쪽까지">
+      </div>
+    </div>
+    <div class="fillrow">
+      <span class="emoji">📖</span>
+      <div class="filltext">
+        <span class="flabel">책읽기</span>
+        <input type="text" id="readInput" placeholder="어떤 책을 읽었는지 적어보기">
+      </div>
+    </div>
+    <div class="fillrow">
+      <span class="emoji">➕</span>
+      <div class="filltext">
+        <span class="flabel">추가</span>
+        <input type="text" id="extraInput" placeholder="오늘 더 한 일이 있다면">
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">🌟 오늘 하루 평가 🌟</div>
+  <div class="card" style="padding:10px 14px;">
+    <div class="stars" id="starRow">
+      <span class="star" data-v="1">⭐</span>
+      <span class="star" data-v="2">⭐</span>
+      <span class="star" data-v="3">⭐</span>
+      <span class="star" data-v="4">⭐</span>
+      <span class="star" data-v="5">⭐</span>
+    </div>
+    <textarea id="reviewInput" placeholder="오늘 하루는 어땠나요? 간단하게 적어주세요"></textarea>
+
+    <div class="confirm-row">
+      <div class="confirm">
+        <span class="emoji">👨</span>
+        <span class="label">아빠 확인</span>
+        <div class="chk" data-key="dad" onclick="toggleChk(this)"></div>
+      </div>
+      <div class="confirm">
+        <span class="emoji">👩</span>
+        <span class="label">엄마 확인</span>
+        <div class="chk" data-key="mom" onclick="toggleChk(this)"></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="save-btn" onclick="saveData()">💾 오늘 기록 저장하기</button>
+  <div class="status" id="statusMsg"></div>
+
+  <div class="section-title">⚡ 파란별을 모아라! ⚡</div>
+  <div id="starProgress" class="star-progress"></div>
+  <div class="card" id="calCard" style="padding:10px 8px;">
+    <div class="cal-weekdays">
+      <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-legend">
+      <span style="color:#D8D2C2;">★</span> 기록없음
+      <span style="color:#FF6B6B;">★</span> 별 1-2개
+      <span style="color:#FFC93C;">★</span> 별 3개
+      <span style="color:#4A90E2;">★</span> 별 4-5개
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+// ⚠️ 아래 firebaseConfig 안에 지수님이 파이어베이스 콘솔에서 복사한
+// 본인 프로젝트 설정값을 그대로 붙여넣으세요
+const firebaseConfig = {
+  apiKey: "AIzaSyD95NepHNXOQmZ8aTvkGq4vVR7RrpllUiI",
+  authDomain: "pinkklion.firebaseapp.com",
+  databaseURL: "https://pinkklion-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  projectId: "pinkklion",
+  storageBucket: "pinkklion.firebasestorage.app",
+  messagingSenderId: "173325073035",
+  appId: "1:173325073035:web:8ccccc55ac04b5d939b28e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let state = {};
+
+function todayStr(){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+function toggleChk(el){
+  const key = el.dataset.key;
+  state[key] = !state[key];
+  el.classList.toggle('done', !!state[key]);
+  el.textContent = state[key] ? '✔' : '';
+}
+
+function setStars(v){
+  state.stars = v;
+  document.querySelectorAll('.star').forEach(s=>{
+    s.classList.toggle('on', parseInt(s.dataset.v) <= v);
+  });
+}
+
+document.querySelectorAll('.star').forEach(s=>{
+  s.addEventListener('click', ()=> setStars(parseInt(s.dataset.v)));
+});
+
+function resetForm(){
+  state = {};
+  document.querySelectorAll('.chk').forEach(el=>{
+    el.classList.remove('done');
+    el.textContent='';
+  });
+  setStars(0);
+  document.getElementById('mathInput').value='';
+  document.getElementById('readInput').value='';
+  document.getElementById('extraInput').value='';
+  document.getElementById('reviewInput').value='';
+  document.getElementById('statusMsg').textContent='';
+}
+
+async function loadData(dateStr){
+  resetForm();
+  const statusEl = document.getElementById('statusMsg');
+  try{
+    const snap = await get(ref(db, 'checklist/' + dateStr));
+    if(snap.exists()){
+      state = snap.val();
+      document.querySelectorAll('.chk').forEach(el=>{
+        const key = el.dataset.key;
+        if(state[key]){
+          el.classList.add('done');
+          el.textContent='✔';
+        }
+      });
+      setStars(state.stars || 0);
+      document.getElementById('mathInput').value = state.math || '';
+      document.getElementById('readInput').value = state.read || '';
+      document.getElementById('extraInput').value = state.extra || '';
+      document.getElementById('reviewInput').value = state.review || '';
+      statusEl.textContent = '이 날짜에 저장된 기록을 불러왔어요';
+    }
+  }catch(e){
+    statusEl.textContent = '불러오기에 실패했어요 - 인터넷 연결을 확인해주세요';
+  }
+}
+
+async function saveData(){
+  const dateStr = document.getElementById('dateInput').value || todayStr();
+  state.math = document.getElementById('mathInput').value;
+  state.read = document.getElementById('readInput').value;
+  state.extra = document.getElementById('extraInput').value;
+  state.review = document.getElementById('reviewInput').value;
+  const statusEl = document.getElementById('statusMsg');
+  try{
+    await set(ref(db, 'checklist/' + dateStr), state);
+    statusEl.textContent = '✅ 저장 완료 - ' + dateStr;
+  }catch(e){
+    statusEl.textContent = '저장에 실패했어요 - 인터넷 연결을 확인해주세요';
+  }
+  renderCalendar();
+}
+
+const VACATION_START = new Date(2026,6,30); // 2026년 7월 30일
+const VACATION_END = new Date(2026,7,19);   // 2026년 8월 19일
+const CAL_YEAR = 2026;
+const CAL_MONTH = 7; // 0-indexed, 8월
+
+function fmt(d){
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+function starColor(n){
+  if(!n || n<=0) return '#EAE6D8';
+  if(n<=2) return '#FF6B6B';
+  if(n===3) return '#FFC93C';
+  return '#4A90E2';
+}
+
+async function renderCalendar(){
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+
+  const firstOfMonth = new Date(CAL_YEAR, CAL_MONTH, 1);
+  const startDow = firstOfMonth.getDay();
+  const gridStart = new Date(CAL_YEAR, CAL_MONTH, 1 - startDow);
+
+  const lastOfMonth = new Date(CAL_YEAR, CAL_MONTH+1, 0);
+  const endDow = lastOfMonth.getDay();
+  const gridEnd = new Date(CAL_YEAR, CAL_MONTH, lastOfMonth.getDate() + (6-endDow));
+
+  const cellDates = [];
+  let cur = new Date(gridStart);
+  while(cur <= gridEnd){
+    cellDates.push(new Date(cur));
+    cur.setDate(cur.getDate()+1);
+  }
+
+  const todayKey = todayStr();
+
+  // 파이어베이스에서 저장된 모든 기록을 한 번에 불러오기
+  let starsMap = {};
+  try{
+    const snap = await get(ref(db, 'checklist'));
+    if(snap.exists()){
+      const all = snap.val();
+      Object.keys(all).forEach(k=>{
+        starsMap[k] = all[k].stars || 0;
+      });
+    }
+  }catch(e){}
+
+  cellDates.forEach(d=>{
+    const key = fmt(d);
+    const inRange = d >= VACATION_START && d <= VACATION_END;
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell' + (inRange ? '' : ' out');
+    if(key === todayKey) cell.classList.add('today');
+    cell.style.background = inRange ? (starsMap[key] ? starColor(starsMap[key]) : '#EAE6D8') : 'transparent';
+    if(inRange && starsMap[key]){
+      const n = starsMap[key];
+      cell.classList.add('cal-star-cell');
+      cell.style.color = (n===3) ? 'var(--navy)' : '#fff';
+    }
+    const numEl = document.createElement('div');
+    numEl.textContent = d.getDate();
+    cell.appendChild(numEl);
+    grid.appendChild(cell);
+  });
+
+  let blueCount = 0;
+  let totalDays = 0;
+  let cur2 = new Date(VACATION_START);
+  while(cur2 <= VACATION_END){
+    totalDays++;
+    if((starsMap[fmt(cur2)] || 0) >= 4) blueCount++;
+    cur2.setDate(cur2.getDate()+1);
+  }
+  const pct = totalDays ? Math.round((blueCount/totalDays)*100) : 0;
+  const progressEl = document.getElementById('starProgress');
+  progressEl.innerHTML = `🔵 파란별 ${blueCount}개 / ${totalDays}일 모았어요!
+    <div class="bar-track"><div class="bar-fill" style="width:${pct}%;"></div></div>`;
+}
+
+// onclick 속성에서 호출할 수 있도록 전역으로 등록
+window.toggleChk = toggleChk;
+window.saveData = saveData;
+
+renderCalendar();
+
+const dateInput = document.getElementById('dateInput');
+dateInput.value = todayStr();
+dateInput.addEventListener('change', ()=> loadData(dateInput.value));
+loadData(dateInput.value);
+</script>
+</body>
+</html>
